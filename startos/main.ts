@@ -42,8 +42,15 @@ export const main = sdk.setupMain(async ({ effects }) => {
   if (!store?.appKey || !store.cronToken) {
     throw new Error('store.json is missing generated secrets')
   }
-  const { appKey, cronToken, primaryUrl, adminEmail, importerToken, smtp } =
-    store
+  const {
+    appKey,
+    cronToken,
+    primaryUrl,
+    adminEmail,
+    importerToken,
+    smtp,
+    enableBanking,
+  } = store
 
   let smtpCredentials: T.SmtpValue | null = null
   if (smtp.selection === 'system') {
@@ -152,6 +159,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
           FIREFLY_III_URL: `http://127.0.0.1:${fireflyPort}`,
           VANITY_URL: primaryUrl,
           FIREFLY_III_ACCESS_TOKEN: importerToken ?? '',
+          ENABLE_BANKING_APP_ID: enableBanking?.appId ?? '',
+          // An empty key is fatal, not merely unconfigured: the importer runs
+          // realpath('') on it, lands on the working directory, and then reads
+          // that directory as a file, so every Enable Banking page 500s before
+          // it can ask for credentials. The placeholder is an invalid key,
+          // which it reports cleanly and its own form can replace.
+          ENABLE_BANKING_PRIVATE_KEY:
+            enableBanking?.privateKey || 'unconfigured',
           TRUSTED_PROXIES: '**',
           TZ: 'UTC',
         },

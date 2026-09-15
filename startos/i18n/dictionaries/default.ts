@@ -48,6 +48,14 @@ const dict = {
   'Configure SMTP': 31,
   'Add SMTP credentials so Firefly III can send bill reminders, password resets and error reports.': 32,
 
+  // actions/manageEnableBanking.ts
+  'Application ID': 35,
+  'The ID of the application you registered in the Enable Banking control panel.': 36,
+  'Private Key': 37,
+  'The PEM file downloaded when the application was registered. Paste the whole file, including the BEGIN and END lines.': 38,
+  'Configure Enable Banking': 39,
+  'Add the Enable Banking credentials the Data Importer uses to pull transactions from your banks. Leave both fields empty to remove them.': 40,
+
   // init/watchAdmin.ts
   'Create your Firefly III account. Until you do, anyone who reaches the address could claim this instance.': 33,
 
