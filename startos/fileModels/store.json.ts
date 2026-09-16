@@ -8,6 +8,13 @@ const shape = z.looseObject({
   adminEmail: z.string().optional().catch(undefined),
   importerToken: z.string().optional().catch(undefined),
   smtp: smtpShape,
+  enableBanking: z
+    .object({
+      appId: z.string().catch(''),
+      privateKey: z.string().catch(''),
+    })
+    .optional()
+    .catch(undefined),
 })
 
 export const storeJson = FileHelper.json(

@@ -72,6 +72,7 @@ The database is embedded SQLite at `main`'s `database/database.sqlite`, created 
 | `adminEmail`       | unset                        | `create-admin`                                     |
 | `importerToken`    | issued by `create-admin`     | `reissue-importer-token`                           |
 | `smtp`             | `disabled` at install        | `manage-smtp`                                      |
+| `enableBanking`    | unset                        | `manage-enable-banking`                            |
 
 **`appKey` is data-bearing.** Firefly III encrypts attachments, user preferences and application configuration with it. It is generated once at install and never rotated; a lost or changed value makes existing attachments and preferences unreadable, not merely logs everyone out.
 
@@ -123,6 +124,10 @@ Creation and rotation are separate because their inputs are: creation must accep
 **`reissue-importer-token`** — run when the Data Importer stops being able to reach Firefly III, which in practice means its token was revoked from Firefly III's own OAuth page. Mints a replacement through the application's token factory, revokes every prior token issued under the same name, and writes it to `store.json`, which restarts the importer. Seconds; each run replaces the last. It needs an account to exist and says so plainly when one does not.
 
 **`manage-smtp`** — run to enable outbound email. Writes `smtp` to `store.json` and restarts Firefly III. Without it `MAIL_MAILER=log`, so Firefly III writes would-be mail to its log; bill reminders and the password-reset link therefore do nothing. Idempotent.
+
+**`manage-enable-banking`** — run to let the Data Importer pull transactions over Enable Banking's PSD2 API. Writes `enableBanking` to `store.json` and restarts the importer, which reads the pair as `ENABLE_BANKING_APP_ID` and `ENABLE_BANKING_PRIVATE_KEY`. Idempotent. The form pre-fills the application ID only; an empty key keeps the stored one, both fields empty clears the pair, and one without the other is rejected — a half-configured pair makes the importer's Enable Banking page fail.
+
+`ENABLE_BANKING_PRIVATE_KEY` is never sent empty: importer 2.3.4 crashes on an empty value ([firefly-iii#12493](https://github.com/firefly-iii/firefly-iii/issues/12493), fixed for 2.3.5) on the very page that would collect the credentials. Until the pair is stored the package sends the literal `not-configured`, which the importer treats as a loaded key — its own authentication form then reports one as present, so credentials go in through this action, not that form.
 
 ## Tasks
 
@@ -195,6 +200,8 @@ startos_managed_env_vars:
   - FIREFLY_III_URL
   - VANITY_URL
   - FIREFLY_III_ACCESS_TOKEN
+  - ENABLE_BANKING_APP_ID
+  - ENABLE_BANKING_PRIVATE_KEY
 dependencies: none
 interfaces:
   ui: { type: ui, port: 8080 }
@@ -205,6 +212,7 @@ actions:
   - set-primary-url
   - reissue-importer-token
   - manage-smtp
+  - manage-enable-banking
 tasks:
   - { action: create-admin, severity: critical }
   - { action: set-primary-url, severity: critical }

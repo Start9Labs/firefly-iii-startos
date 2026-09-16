@@ -35,6 +35,7 @@ For a CSV file, it walks you through mapping columns to Firefly III fields and o
 - **Reset Admin Password** — pick an account and get a new password for it, shown once. Run it if you have lost your password.
 - **Set Primary URL** — chooses which of your addresses Firefly III treats as its own. It appears in the emails Firefly III sends and in the links the Data Importer uses to send you back. Set it to the address you actually use; a `.local` address is chosen for you at install.
 - **Reissue Data Importer Token** — run this only if the Data Importer starts saying it cannot reach Firefly III, which happens if you revoke its access under **Options → Profile → OAuth**. It hands the importer a new key and retires the old one.
+- **Configure Enable Banking** — paste the application ID and private key from your Enable Banking control panel, and the Data Importer can pull transactions straight from your banks. Enter them here rather than on the importer's own authentication page.
 - **Configure SMTP** — needed for bill and subscription reminders and for the "forgot password" link. Without it, Firefly III writes those emails to its log instead of sending them.
 
 ## Limitations
