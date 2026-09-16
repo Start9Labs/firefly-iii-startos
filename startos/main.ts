@@ -43,8 +43,15 @@ export const main = sdk.setupMain(async ({ effects }) => {
   if (!store?.appKey || !store.cronToken) {
     throw new Error('store.json is missing generated secrets')
   }
-  const { appKey, cronToken, primaryUrl, adminEmail, importerToken, smtp } =
-    store
+  const {
+    appKey,
+    cronToken,
+    primaryUrl,
+    adminEmail,
+    importerToken,
+    smtp,
+    enableBanking,
+  } = store
 
   let smtpCredentials: T.SmtpValue | null = null
   if (smtp.selection === 'system') {
@@ -162,6 +169,10 @@ export const main = sdk.setupMain(async ({ effects }) => {
           FIREFLY_III_URL: `http://127.0.0.1:${fireflyPort}`,
           VANITY_URL: primaryUrl,
           FIREFLY_III_ACCESS_TOKEN: importerToken ?? '',
+          ENABLE_BANKING_APP_ID: enableBanking?.appId ?? '',
+          // Importer 2.3.4 crashes on an empty key (firefly-iii#12493).
+          ENABLE_BANKING_PRIVATE_KEY:
+            enableBanking?.privateKey || 'not-configured',
           TRUSTED_PROXIES: '**',
           TZ: 'UTC',
         },

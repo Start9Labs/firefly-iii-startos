@@ -7,6 +7,9 @@ This package wraps two upstream Docker images, both pinned by tag in
   version, so bumping it is what moves `startos/versions/current.ts`.
 - `data-importer` — `fireflyiii/data-importer`, the companion import tool. It has its own
   release line and is bumped independently; a bump here is a downstream revision.
+  Past 2.3.4 an empty `ENABLE_BANKING_PRIVATE_KEY` no longer crashes it
+  (firefly-iii/firefly-iii#12493), so the `not-configured` placeholder in `startos/main.ts`
+  can go.
 
 ## Determining the upstream version
 
