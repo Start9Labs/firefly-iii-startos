@@ -160,13 +160,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
           VANITY_URL: primaryUrl,
           FIREFLY_III_ACCESS_TOKEN: importerToken ?? '',
           ENABLE_BANKING_APP_ID: enableBanking?.appId ?? '',
-          // An empty key is fatal, not merely unconfigured: the importer runs
-          // realpath('') on it, lands on the working directory, and then reads
-          // that directory as a file, so every Enable Banking page 500s before
-          // it can ask for credentials. The placeholder is an invalid key,
-          // which it reports cleanly and its own form can replace.
+          // Importer 2.3.4 crashes on an empty key (firefly-iii#12493).
           ENABLE_BANKING_PRIVATE_KEY:
-            enableBanking?.privateKey || 'unconfigured',
+            enableBanking?.privateKey || 'not-configured',
           TRUSTED_PROXIES: '**',
           TZ: 'UTC',
         },
