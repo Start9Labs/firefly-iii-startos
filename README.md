@@ -44,7 +44,7 @@ Both images bind port 8080 and php-fpm 9000, and StartOS subcontainers share one
 
 That same oneshot creates the importer's storage tree. The importer image ships the **core** image's `finalize-image.sh`, which creates the core's directories rather than its own — without the fix, every importer page returns `Make sure that directory "/var/www/html/storage/uploads" exists and is writeable.`
 
-A `firefly-chown` oneshot gives `www-data` ownership of the main volume, which StartOS mounts root-owned.
+A `firefly-chown` oneshot gives `www-data` ownership of the main volume, which StartOS mounts root-owned. A `firefly-disable-update-check` oneshot then sets Firefly III's `permission_update_check` to `0` through the package's PHP helper, so the application never checks upstream for releases StartOS delivers itself.
 
 ## Volume and Data Layout
 
@@ -161,7 +161,7 @@ A restored instance is immediately usable — credentials, `appKey` and the OAut
 2. **The Data Importer's session encryption key is a constant compiled into the upstream image**, identical in every deployment worldwide, and the image offers no way to override it. This package keeps credentials out of that session entirely — the access token reaches the importer as an environment variable — so the exposure is limited to whatever an import in progress puts there.
 3. **Third-party bank connections need accounts elsewhere.** The Data Importer's GoCardless, SaltEdge and SimpleFIN integrations require credentials from those providers, which this package does not supply or configure.
 4. **The containers run on UTC.** Firefly III's per-user time-zone preference is the place to set a local zone; there is no package-level setting.
-5. **Firefly III's version-update check and external exchange-rate download stay off**, as they are upstream. Both are administrator settings inside the application if wanted.
+5. **Firefly III's own version-update check is set to off on every start**, since StartOS delivers updates; enabling it in Settings lasts until the next restart. Settings → "Check for updates" still runs a manual check against upstream's release feed, which knows nothing about what StartOS ships. The external exchange-rate download stays off as it is upstream and remains an administrator setting inside the application.
 
 ---
 

@@ -1,5 +1,6 @@
 import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
+import { helperPath, helperSource } from './fireflyCli'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
 import {
@@ -88,6 +89,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     fireflyMounts,
     'firefly-sub',
   )
+  await fireflySub.writeFile(helperPath, helperSource)
 
   const importerSub = sdk.SubContainer.of(
     effects,
@@ -111,6 +113,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
         user: 'root',
       },
       requires: [],
+    })
+    .addOneshot('firefly-disable-update-check', {
+      subcontainer: fireflySub,
+      exec: {
+        command: ['php', helperPath, 'disable-update-check'],
+        env: fireflyBaseEnv(appKey),
+      },
+      requires: ['firefly-chown'],
     })
     .addDaemon('firefly', {
       subcontainer: fireflySub,
@@ -137,7 +147,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
             },
           ),
       },
-      requires: ['firefly-chown'],
+      requires: ['firefly-disable-update-check'],
     })
     .addOneshot('importer-prepare', {
       subcontainer: importerSub,
