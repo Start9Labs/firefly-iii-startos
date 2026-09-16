@@ -3,15 +3,15 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { sdk } from './sdk'
 import { appUser, fireflyBaseEnv, fireflyMounts, storagePath } from './utils'
 
-const helperPath = '/tmp/firefly-helper.php'
+export const helperPath = '/tmp/firefly-helper.php'
 const outPath = '/tmp/firefly-out'
 
 export const importerTokenName = 'StartOS Data Importer'
 
-// Firefly III ships no command for either of these; each goes through the same
-// model, hasher and token factory its own code does. Results come back in a
-// file because the application logs to stdout.
-const helperSource = String.raw`<?php
+// Firefly III ships no command for any of these; each goes through the same
+// model, hasher, token factory and settings store its own code does. Results
+// come back in a file because the application logs to stdout.
+export const helperSource = String.raw`<?php
 require '/var/www/html/vendor/autoload.php';
 $app = require '/var/www/html/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
@@ -52,6 +52,10 @@ switch ($argv[1] ?? '') {
         }
         $account->tokens()->where('name', $argv[3])->update(['revoked' => true]);
         $out($account->createToken($argv[3])->accessToken);
+        exit(0);
+
+    case 'disable-update-check':
+        FireflyIII\Support\Facades\AppConfiguration::set('permission_update_check', 0);
         exit(0);
 }
 exit(1);
