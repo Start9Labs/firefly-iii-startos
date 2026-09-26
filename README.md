@@ -127,8 +127,6 @@ Creation and rotation are separate because their inputs are: creation must accep
 
 **`manage-enable-banking`** — run to let the Data Importer pull transactions over Enable Banking's PSD2 API. Writes `enableBanking` to `store.json` and restarts the importer, which reads the pair as `ENABLE_BANKING_APP_ID` and `ENABLE_BANKING_PRIVATE_KEY`. Idempotent. The form pre-fills the application ID only; an empty key keeps the stored one, both fields empty clears the pair, and one without the other is rejected — a half-configured pair makes the importer's Enable Banking page fail.
 
-`ENABLE_BANKING_PRIVATE_KEY` is never sent empty: importer 2.3.4 crashes on an empty value ([firefly-iii#12493](https://github.com/firefly-iii/firefly-iii/issues/12493), fixed for 2.3.5) on the very page that would collect the credentials. Until the pair is stored the package sends the literal `not-configured`, which the importer treats as a loaded key — its own authentication form then reports one as present, so credentials go in through this action, not that form.
-
 ## Tasks
 
 Two tasks, both `critical`, both raised from init watchers.
