@@ -170,9 +170,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
           VANITY_URL: primaryUrl,
           FIREFLY_III_ACCESS_TOKEN: importerToken ?? '',
           ENABLE_BANKING_APP_ID: enableBanking?.appId ?? '',
-          // Importer 2.3.4 crashes on an empty key (firefly-iii#12493).
-          ENABLE_BANKING_PRIVATE_KEY:
-            enableBanking?.privateKey || 'not-configured',
+          ENABLE_BANKING_PRIVATE_KEY: enableBanking?.privateKey ?? '',
           TRUSTED_PROXIES: '**',
           TZ: 'UTC',
         },

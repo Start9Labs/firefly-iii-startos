@@ -14,11 +14,11 @@ export const manifest = setupManifest({
   volumes: ['main', 'importer', 'startos'],
   images: {
     firefly: {
-      source: { dockerTag: 'fireflyiii/core:version-6.7.3' },
+      source: { dockerTag: 'fireflyiii/core:version-6.7.4' },
       arch: ['x86_64', 'aarch64'],
     },
     'data-importer': {
-      source: { dockerTag: 'fireflyiii/data-importer:version-2.3.4' },
+      source: { dockerTag: 'fireflyiii/data-importer:version-2.3.5' },
       arch: ['x86_64', 'aarch64'],
     },
   },

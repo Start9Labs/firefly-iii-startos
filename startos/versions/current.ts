@@ -1,18 +1,18 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.7.3:0',
+  version: '6.7.4:0',
   releaseNotes: {
     en_US:
-      'Updated Firefly III to 6.7.3. Fixes date-range selection, transaction cloning and mass editing, account attachment errors, reports that included disabled accounts, and the mobile budget chart. [Full upstream release notes](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.3)',
+      'Updated Firefly III to 6.7.4 and the Data Importer. Fixes transaction creation, running balances, date selection and PDF reports; the importer fixes bank downloads and Enable Banking with no key configured. [Firefly III release notes](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.4) · [Data Importer release notes](https://github.com/firefly-iii/data-importer/releases/tag/v2.3.5)',
     es_ES:
-      'Firefly III se actualizó a la versión 6.7.3. Corrige la selección de intervalos de fechas, la clonación y edición masiva de transacciones, los errores con archivos adjuntos de cuentas, los informes que incluían cuentas deshabilitadas y el gráfico de presupuesto para móviles. [Notas completas de la versión original](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.3)',
+      'Se actualizaron Firefly III a la versión 6.7.4 y el importador de datos. Se corrigen la creación de transacciones, los saldos acumulados, la selección de fechas y los informes PDF; el importador corrige las descargas bancarias y Enable Banking cuando no hay clave configurada. [Notas de Firefly III](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.4) · [Notas del importador](https://github.com/firefly-iii/data-importer/releases/tag/v2.3.5)',
     de_DE:
-      'Firefly III wurde auf Version 6.7.3 aktualisiert. Die Aktualisierung korrigiert die Auswahl von Datumsbereichen, das Kopieren und die Massenbearbeitung von Buchungen, Fehler bei Konten mit Anhängen, Berichte mit deaktivierten Konten und das Budgetdiagramm auf Mobilgeräten. [Vollständige Versionshinweise des Originalprojekts](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.3)',
+      'Firefly III wurde auf Version 6.7.4 aktualisiert, ebenso der Datenimporter. Korrigiert wurden das Erstellen von Buchungen, laufende Salden, die Datumsauswahl und PDF-Berichte; der Importer behebt Fehler bei Bankabrufen und bei Enable Banking ohne konfigurierten Schlüssel. [Firefly III – Versionshinweise](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.4) · [Importer – Versionshinweise](https://github.com/firefly-iii/data-importer/releases/tag/v2.3.5)',
     pl_PL:
-      'Zaktualizowano Firefly III do wersji 6.7.3. Poprawiono wybór zakresu dat, klonowanie i zbiorczą edycję transakcji, błędy załączników kont, raporty uwzględniające wyłączone konta oraz wykres budżetu na urządzeniach mobilnych. [Pełne informacje o wydaniu projektu bazowego](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.3)',
+      'Zaktualizowano Firefly III do wersji 6.7.4 oraz importer danych. Poprawiono tworzenie transakcji, salda bieżące, wybór dat i raporty PDF; importer naprawia pobieranie danych z banków oraz działanie Enable Banking bez skonfigurowanego klucza. [Informacje o wydaniu Firefly III](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.4) · [Informacje o wydaniu importera](https://github.com/firefly-iii/data-importer/releases/tag/v2.3.5)',
     fr_FR:
-      'Firefly III a été mis à jour vers la version 6.7.3. Cette mise à jour corrige la sélection des plages de dates, le clonage et la modification groupée des transactions, les erreurs liées aux pièces jointes des comptes, les rapports incluant des comptes désactivés et le graphique du budget sur mobile. [Notes de version complètes du projet d’origine](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.3)',
+      'Firefly III a été mis à jour vers la version 6.7.4, ainsi que l’importateur de données. Cette mise à jour corrige la création des transactions, les soldes cumulés, le choix des dates et les rapports PDF ; l’importateur corrige les téléchargements bancaires et Enable Banking sans clé configurée. [Notes de Firefly III](https://github.com/firefly-iii/firefly-iii/releases/tag/v6.7.4) · [Notes de l’importateur](https://github.com/firefly-iii/data-importer/releases/tag/v2.3.5)',
   },
   migrations: {
     up: async ({ effects }) => {},
