@@ -9,7 +9,7 @@ const shape = z.looseObject({
   importerToken: z.string().optional().catch(undefined),
   smtp: smtpShape,
   enableBanking: z
-    .object({
+    .looseObject({
       appId: z.string().catch(''),
       privateKey: z.string().catch(''),
     })

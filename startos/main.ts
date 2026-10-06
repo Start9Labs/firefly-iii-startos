@@ -2,6 +2,7 @@ import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
 import { helperPath, helperSource } from './fireflyCli'
 import { i18n } from './i18n'
+import { primaryUrl } from './primaryUrl'
 import { sdk } from './sdk'
 import {
   appUser,
@@ -43,15 +44,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
   if (!store?.appKey || !store.cronToken) {
     throw new Error('store.json is missing generated secrets')
   }
-  const {
-    appKey,
-    cronToken,
-    primaryUrl,
-    adminEmail,
-    importerToken,
-    smtp,
-    enableBanking,
-  } = store
+  const { appKey, cronToken, adminEmail, importerToken, smtp, enableBanking } =
+    store
+  const appUrl = (await primaryUrl.bestUsable(effects).const()) ?? ''
 
   let smtpCredentials: T.SmtpValue | null = null
   if (smtp.selection === 'system') {
@@ -129,7 +124,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
         runAsInit: true,
         env: {
           ...fireflyBaseEnv(appKey),
-          APP_URL: primaryUrl,
+          APP_URL: appUrl,
           SITE_OWNER: adminEmail ?? '',
           STATIC_CRON_TOKEN: cronToken,
           ...mailEnv,
@@ -167,7 +162,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
           APP_ENV: 'production',
           NGINX_HTTP_PORT: String(importerPort),
           FIREFLY_III_URL: `http://127.0.0.1:${fireflyPort}`,
-          VANITY_URL: primaryUrl,
+          VANITY_URL: appUrl,
           FIREFLY_III_ACCESS_TOKEN: importerToken ?? '',
           ENABLE_BANKING_APP_ID: enableBanking?.appId ?? '',
           ENABLE_BANKING_PRIVATE_KEY: enableBanking?.privateKey ?? '',

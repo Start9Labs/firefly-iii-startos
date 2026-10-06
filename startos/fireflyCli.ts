@@ -119,12 +119,14 @@ export async function withFireflyCli<T>(
           ).exitCode === 0,
 
         bootstrap: async () => {
-          await sub.execFail(
-            ['/usr/local/bin/finalize-image.sh'],
-            { env },
-            null,
-          )
-          await sub.execFail(['/usr/local/bin/entrypoint.sh'], { env }, null)
+          await sub.execFail(['/usr/local/bin/finalize-image.sh'], {
+            env,
+            timeout: null,
+          })
+          await sub.execFail(['/usr/local/bin/entrypoint.sh'], {
+            env,
+            timeout: null,
+          })
         },
 
         createFirstUser: async (email) => {
@@ -132,8 +134,7 @@ export async function withFireflyCli<T>(
           await sub.execFail(['php', 'artisan', 'config:clear'], { env })
           await sub.execFail(
             ['php', 'artisan', 'system:create-first-user', email],
-            { env: { ...env, APP_ENV: 'testing' } },
-            null,
+            { env: { ...env, APP_ENV: 'testing' }, timeout: null },
           )
         },
 

@@ -45,6 +45,7 @@ export default {
     40: 'Añade las credenciales de Enable Banking que el importador de datos usa para obtener las transacciones de tus bancos. Deja ambos campos vacíos para eliminarlas.',
     41: 'Debe ser el archivo PEM entero, empezando por su línea BEGIN PRIVATE KEY.',
     42: 'Introduce tanto el ID de la aplicación como la clave privada, o deja ambos campos vacíos para eliminarlos.',
+    43: 'El token que usa el importador de datos deja de funcionar, y Firefly III y el importador se reinician para usar el nuevo.',
   },
   de_DE: {
     0: 'Firefly III wird gestartet!',
@@ -90,6 +91,7 @@ export default {
     40: 'Hinterlegen Sie die Enable-Banking-Zugangsdaten, mit denen der Datenimporter Transaktionen von Ihren Banken abruft. Lassen Sie beide Felder leer, um sie zu entfernen.',
     41: 'Muss die ganze PEM-Datei sein, beginnend mit ihrer BEGIN-PRIVATE-KEY-Zeile.',
     42: 'Geben Sie sowohl die Anwendungs-ID als auch den privaten Schlüssel ein, oder lassen Sie beide Felder leer, um sie zu entfernen.',
+    43: 'Das Token, das der Datenimporter verwendet, funktioniert nicht mehr, und Firefly III und der Datenimporter starten neu, um das neue zu verwenden.',
   },
   pl_PL: {
     0: 'Uruchamianie Firefly III!',
@@ -135,6 +137,7 @@ export default {
     40: 'Dodaj dane Enable Banking, których importer danych używa do pobierania transakcji z Twoich banków. Pozostaw oba pola puste, aby je usunąć.',
     41: 'Musi to być cały plik PEM, zaczynający się od wiersza BEGIN PRIVATE KEY.',
     42: 'Podaj zarówno identyfikator aplikacji, jak i klucz prywatny, albo pozostaw oba pola puste, aby je usunąć.',
+    43: 'Token używany przez importer danych przestaje działać, a Firefly III i importer danych uruchamiają się ponownie, aby użyć nowego.',
   },
   fr_FR: {
     0: 'Démarrage de Firefly III !',
@@ -180,5 +183,6 @@ export default {
     40: "Ajoutez les identifiants Enable Banking que l'importateur de données utilise pour récupérer les transactions de vos banques. Laissez les deux champs vides pour les supprimer.",
     41: 'Doit être le fichier PEM entier, commençant par sa ligne BEGIN PRIVATE KEY.',
     42: "Saisissez à la fois l'identifiant de l'application et la clé privée, ou laissez les deux champs vides pour les supprimer.",
+    43: "Le jeton qu'utilise l'importateur de données cesse de fonctionner, et Firefly III et l'importateur redémarrent pour utiliser le nouveau.",
   },
 } satisfies Record<string, LangDict>

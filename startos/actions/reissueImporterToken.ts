@@ -13,7 +13,9 @@ export const reissueImporterToken = sdk.Action.withoutInput(
     description: i18n(
       'Give the Data Importer a fresh access token and revoke the one it was using. Run this if the Data Importer stops being able to reach Firefly III.',
     ),
-    warning: null,
+    warning: i18n(
+      'The token the Data Importer is using stops working, and Firefly III and the Data Importer restart to use the new one.',
+    ),
     allowedStatuses: 'any',
     group: null,
     visibility: 'enabled',

@@ -1,4 +1,5 @@
 import { i18n } from './i18n'
+import { primaryUrl } from './primaryUrl'
 import { sdk } from './sdk'
 import {
   fireflyPort,
@@ -23,6 +24,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     username: null,
     path: '',
     query: {},
+    preferredLauncherAddress: await primaryUrl.bestUsable(effects).const(),
   })
 
   const importerMulti = sdk.MultiHost.of(effects, importerHostId)

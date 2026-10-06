@@ -1,4 +1,4 @@
-import { T, utils } from '@start9labs/start-sdk'
+import { utils } from '@start9labs/start-sdk'
 import { manifest } from './manifest'
 import { sdk } from './sdk'
 
@@ -56,16 +56,3 @@ export const importerMounts = sdk.Mounts.of().mountVolume({
   mountpoint: storagePath,
   readonly: false,
 })
-
-export function getNonLocalUrls(effects: T.Effects): Promise<string[]> {
-  return sdk.host
-    .getOwn(effects, uiHostId, (host) => {
-      const iface =
-        host &&
-        Object.values(host.bindings)
-          .flatMap((b) => Object.values(b.interfaces))
-          .find((i) => i.id === uiInterfaceId)
-      return iface ? iface.addressInfo.nonLocal.format() : []
-    })
-    .const()
-}
