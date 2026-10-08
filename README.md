@@ -107,11 +107,11 @@ That action does the whole bootstrap. When no database exists yet it runs the im
 
 Nothing is left for the user to wire up between the two components: the Data Importer is authenticated to Firefly III from the moment the account exists.
 
-`primaryUrl` is seeded with a `.local` address at install so the service has a usable `APP_URL` before the user chooses one.
+`primaryUrl` is seeded with the `ui` interface's `.local` address (its first address when it has no `.local` one) as soon as one exists, so the service has a usable `APP_URL` before the user chooses one.
 
 ## Actions
 
-Five actions. `create-admin` is `visibility: 'hidden'` — it exists to satisfy the install task and is not somewhere a user should be sent; the other four are user-facing.
+Six actions. `create-admin` is `visibility: 'hidden'` — it exists to satisfy the install task and is not somewhere a user should be sent; the other five are user-facing.
 
 Creation and rotation are separate because their inputs are: creation must accept an email address that does not exist yet, so it takes free text, while rotation picks from the accounts that do exist and so takes a dropdown. One action could not offer both.
 
@@ -119,9 +119,9 @@ Creation and rotation are separate because their inputs are: creation must accep
 
 **`reset-admin-password`** — run when a password is lost. The account is chosen from a dropdown of the Firefly III accounts that actually exist, defaulting to the one the package created; building that list starts a temporary container, so the form takes a few seconds to open. Seconds to run, writes only to Firefly III's user table, and does not restart the service or touch the Data Importer's token.
 
-**`set-primary-url`** — run when the address people actually use changes, or when the task below appears. Writes `primaryUrl` to `store.json`, which restarts both daemons to re-apply `APP_URL` and `VANITY_URL`. Idempotent. The choices come from the `ui` interface's non-local addresses, so a host with no addresses yet renders an empty dropdown.
+**`set-primary-url`** — run when the address people actually use changes, or when the task below appears. Writes `primaryUrl` to `store.json`, which restarts both daemons to re-apply `APP_URL` and `VANITY_URL`, and makes Open UI on the `ui` interface open that address. Idempotent. The choices come from the `ui` interface's non-local addresses, with the `.local` one preselected, so a host with no addresses yet renders an empty dropdown. A stored URL whose port has changed is followed to the same host on its new port.
 
-**`reissue-importer-token`** — run when the Data Importer stops being able to reach Firefly III, which in practice means its token was revoked from Firefly III's own OAuth page. Mints a replacement through the application's token factory, revokes every prior token issued under the same name, and writes it to `store.json`, which restarts the importer. Seconds; each run replaces the last. It needs an account to exist and says so plainly when one does not.
+**`reissue-importer-token`** — run when the Data Importer stops being able to reach Firefly III, which in practice means its token was revoked from Firefly III's own OAuth page. It asks for confirmation first. Mints a replacement through the application's token factory, revokes every prior token issued under the same name, and writes it to `store.json`, which restarts Firefly III and the importer. Seconds; each run replaces the last. It needs an account to exist and says so plainly when one does not.
 
 **`manage-smtp`** — run to enable outbound email. Writes `smtp` to `store.json` and restarts Firefly III. Without it `MAIL_MAILER=log`, so Firefly III writes would-be mail to its log; bill reminders and the password-reset link therefore do nothing. Idempotent.
 
@@ -129,11 +129,11 @@ Creation and rotation are separate because their inputs are: creation must accep
 
 ## Tasks
 
-Two tasks, both `critical`, both raised from init watchers.
+Two tasks, both `critical`, both raised from init.
 
 **Create the administrator account.** Raised whenever `store.json` has no `adminEmail` — which is every fresh install, and any restore of a backup taken before the account was created. Cleared by running `create-admin`, and by the watcher itself once `adminEmail` is set — a restore can set it without the action running. Because it is `critical` the service will not start while it stands, which is deliberate: an unclaimed Firefly III is claimable by anyone who can reach it.
 
-**Select a new primary URL.** Raised only when the stored URL's **host** is gone from the `ui` interface's addresses — the user removed the gateway or domain it named. Cleared by running `set-primary-url`, and by the watcher itself as soon as a usable URL is stored again. It can return if the newly chosen host is later removed too. It is not raised on a fresh install, where the watcher seeds a `.local` address instead, nor when only the port changed: StartOS reassigns external ports on every reinstall and restore, so the watcher re-anchors the stored URL to the same host on its new port rather than prompting for a choice the user already made.
+**Select a new primary URL.** Raised only when the stored URL's **host** is gone from the `ui` interface's addresses — the user removed the gateway or domain it named, or an IP address's network link is down. Cleared by running `set-primary-url`, and on its own when the stored host returns. It is not raised on a fresh install, where init seeds a `.local` address instead, nor when only the port changed: StartOS reassigns external ports on every reinstall and restore, and the stored URL is followed to the same host on its new port.
 
 ## Health Checks
 

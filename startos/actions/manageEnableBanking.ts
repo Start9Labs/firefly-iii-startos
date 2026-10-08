@@ -22,7 +22,7 @@ export const inputSpec = InputSpec.of({
     default: null,
     patterns: [
       {
-        regex: '^-----BEGIN [A-Z ]*PRIVATE KEY-----',
+        regex: '^-----BEGIN [A-Z ]*PRIVATE KEY-----[\\s\\S]*',
         description: i18n(
           'Must be the whole PEM file, starting with its BEGIN PRIVATE KEY line.',
         ),

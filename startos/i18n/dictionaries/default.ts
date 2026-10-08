@@ -32,7 +32,7 @@ const dict = {
   'Reset Admin Password': 21,
   'Generate a new password for a Firefly III account. The password is shown once, here.': 22,
 
-  // actions/setPrimaryUrl.ts
+  // primaryUrl.ts
   URL: 23,
   'Set Primary URL': 24,
   'Choose which of your addresses Firefly III treats as its own. It appears in emails and in links the Data Importer sends you back to.': 25,
@@ -43,6 +43,7 @@ const dict = {
   'Create your Firefly III account first.': 28,
   'Data Importer Token Reissued': 29,
   'The Data Importer has a new token and the previous one no longer works. It restarts to pick the new one up.': 30,
+  'The token the Data Importer is using stops working, and Firefly III and the Data Importer restart to use the new one.': 43,
 
   // actions/manageSmtp.ts
   'Configure SMTP': 31,
@@ -61,7 +62,7 @@ const dict = {
   // init/watchAdmin.ts
   'Create your Firefly III account. Until you do, anyone who reaches the address could claim this instance.': 33,
 
-  // init/taskSetPrimaryUrl.ts
+  // init/primaryUrl.ts
   'Primary URL removed. Select a new primary URL.': 34,
 } as const
 

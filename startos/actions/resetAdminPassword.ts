@@ -26,7 +26,7 @@ export const inputSpec = InputSpec.of({
         (obj, email) => ({ ...obj, [email]: email }),
         {} as Record<string, string>,
       ),
-      default: store?.adminEmail ?? accounts[0] ?? '',
+      default: store?.adminEmail ?? accounts[0] ?? null,
     }
   }),
 })
