@@ -6,29 +6,31 @@ This package wraps two upstream Docker images, both pinned by tag in
 - `firefly` — `fireflyiii/core`, the application. Its version is the package's upstream
   version, so bumping it is what moves `startos/versions/current.ts`.
 - `data-importer` — `fireflyiii/data-importer`, the companion import tool. It has its own
-  release line and is bumped independently; a bump here is a downstream revision.
+  release line and is refreshed alongside an application update or an approved wrapper
+  change, never as the trigger for a release.
 
 ## Determining the upstream version
 
-Firefly III's GitHub releases are the source of truth. Ignore `develop-*` tags, which are
-nightly prereleases.
+Read the tag lists rather than trusting GitHub's Latest badge. Ignore `develop-*` tags,
+which are nightly prereleases, and confirm that the selected release is stable.
 
 ```bash
-gh release view -R firefly-iii/firefly-iii --json tagName -q .tagName
-gh release view -R firefly-iii/data-importer --json tagName -q .tagName
+gh api 'repos/firefly-iii/firefly-iii/tags?per_page=100' --jq '.[].name'
+gh api 'repos/firefly-iii/data-importer/tags?per_page=100' --jq '.[].name'
+gh release view vX.Y.Z -R firefly-iii/firefly-iii --json tagName,isPrerelease,body
 ```
 
 Both projects publish a GitHub release `vX.Y.Z` and a Docker tag `version-X.Y.Z`. Confirm
 the Docker tag exists before pinning it — a release can precede its image by minutes:
 
 ```bash
-curl -s "https://hub.docker.com/v2/repositories/fireflyiii/core/tags?page_size=10" \
-  | jq -r '.results[].name'
-docker manifest inspect fireflyiii/core:version-X.Y.Z \
-  | jq -r '.manifests[].platform | "\(.os)/\(.architecture)"'
+curl -fsSL "https://hub.docker.com/v2/repositories/fireflyiii/core/tags/version-X.Y.Z" \
+  | jq '{name, tag_status, images: [.images[] | {os, architecture, status}]}'
 ```
 
-The manifest must list both `amd64` and `arm64`.
+The tag must include active Linux images for both `amd64` and `arm64`. Check
+`fireflyiii/data-importer` the same way when refreshing its pin. If the newest stable
+release has no usable image, select the newest stable release that does.
 
 ## Applying the bump
 

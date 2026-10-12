@@ -3,7 +3,7 @@ import { storeJson } from '../fileModels/store.json'
 import { withFireflyCli } from '../fireflyCli'
 import { i18n } from '../i18n'
 import { sdk } from '../sdk'
-import { getPassword } from '../utils'
+import { getPassword, loginCredentialsResult } from '../utils'
 
 const { InputSpec, Value } = sdk
 
@@ -70,35 +70,6 @@ export const createAdmin = sdk.Action.withInput(
 
     await storeJson.merge(effects, { adminEmail: input.email, importerToken })
 
-    return {
-      version: '1',
-      title: i18n('Login Credentials'),
-      message: i18n(
-        'Save this password now — it is not stored on your server and cannot be shown again. Run this action again to replace it.',
-      ),
-      result: {
-        type: 'group',
-        value: [
-          {
-            type: 'single',
-            name: i18n('Email Address'),
-            description: null,
-            value: input.email,
-            masked: false,
-            copyable: true,
-            qr: false,
-          },
-          {
-            type: 'single',
-            name: i18n('Password'),
-            description: null,
-            value: password,
-            masked: true,
-            copyable: true,
-            qr: false,
-          },
-        ],
-      },
-    }
+    return loginCredentialsResult(input.email, password)
   },
 )
