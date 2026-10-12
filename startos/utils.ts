@@ -1,4 +1,5 @@
 import { utils } from '@start9labs/start-sdk'
+import { i18n } from './i18n'
 import { manifest } from './manifest'
 import { sdk } from './sdk'
 
@@ -30,6 +31,41 @@ export function getKey32(): string {
 
 export function getPassword(): string {
   return utils.getDefaultString({ charset: 'a-z,A-Z,0-9', len: 24 })
+}
+
+export function loginCredentialsResult(email: string, password: string) {
+  return {
+    version: '1' as const,
+    title: i18n('Login Credentials'),
+    message: i18n(
+      'Save this password now — it is not stored on your server and cannot be shown again. Run this action again to replace it.',
+    ),
+    result: {
+      type: 'group' as const,
+      value: [
+        {
+          type: 'single' as const,
+          name: i18n('Email Address'),
+          description: null,
+          value: email,
+          masked: false,
+          copyable: true,
+          qr: false,
+          launchable: false,
+        },
+        {
+          type: 'single' as const,
+          name: i18n('Password'),
+          description: null,
+          value: password,
+          masked: true,
+          copyable: true,
+          qr: false,
+          launchable: false,
+        },
+      ],
+    },
+  }
 }
 
 // Every `artisan` invocation needs these, the image's own entrypoint included.
