@@ -1,13 +1,17 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.7.9:1',
+  version: '6.7.9:2',
   releaseNotes: {
-    en_US: `Adds Forward Email to the SMTP provider presets.`,
-    es_ES: `Añade Forward Email a los proveedores SMTP predefinidos.`,
-    de_DE: `Fügt Forward Email zu den vordefinierten SMTP-Anbietern hinzu.`,
-    pl_PL: `Dodaje Forward Email do predefiniowanych dostawców SMTP.`,
-    fr_FR: `Ajoute Forward Email aux fournisseurs SMTP prédéfinis.`,
+    en_US:
+      'Updates PHP to fix two critical remote code execution vulnerabilities (PHP2Shell, CVE-2026-109618 and CVE-2026-109619).',
+    es_ES:
+      'Actualiza PHP para corregir dos vulnerabilidades críticas de ejecución remota de código (PHP2Shell, CVE-2026-109618 y CVE-2026-109619).',
+    de_DE:
+      'Aktualisiert PHP und behebt zwei kritische Sicherheitslücken zur Remotecodeausführung (PHP2Shell, CVE-2026-109618 und CVE-2026-109619).',
+    pl_PL:
+      'Aktualizuje PHP, usuwając dwie krytyczne luki umożliwiające zdalne wykonanie kodu (PHP2Shell, CVE-2026-109618 i CVE-2026-109619).',
+    fr_FR: `Met à jour PHP pour corriger deux vulnérabilités critiques d'exécution de code à distance (PHP2Shell, CVE-2026-109618 et CVE-2026-109619).`,
   },
   migrations: {
     up: async ({ effects }) => {},
