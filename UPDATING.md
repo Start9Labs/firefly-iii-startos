@@ -36,8 +36,6 @@ release has no usable image, select the newest stable release that does.
 
 1. Set `images.firefly.source.dockerTag` (and/or `images.data-importer.source.dockerTag`)
    in `startos/manifest/index.ts`.
-2. Set `version` in `startos/versions/current.ts` to `<firefly-version>:<revision>`, and
-   write release notes in all five locales.
-3. Read upstream's release notes for a manual upgrade step. Firefly III migrates its own
+2. Read upstream's release notes for a manual upgrade step. Firefly III migrates its own
    schema on start, but major releases occasionally document a one-off command; if one
    appears, it belongs in the package rather than in a user instruction.
